@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Comentarios } from "./components/comentario";
 
 //Consultas Api
 const axiosClient = axios.create({
@@ -42,28 +43,44 @@ function App() {
     }
   };
 
-  const Comentarios = () => {
-    return comentarios.map((x, i) => {
-      return <p key={i}>{x.comentario}</p>;
-    });
-  };
-
   return (
     <>
-      {error && <p className="text-red-500">Ocurrio algun error</p>}
-      <div className="flex flex-col gap-12 mb-10">
-        <form
-          onSubmit={handleSubmit(succcesSubmit)}
-          className="flex flex-col items-start justify-start gap-1"
-        >
-          <h1>Postear comentario</h1>
-          <textarea {...register("comentario", { required: true })} />
-          <button type="submit">Enviar</button>
-        </form>
-      </div>
-      <div>
-        <h1>Ver los comentarios</h1>
-        <div>{comentarios.length ? <Comentarios /> : "No hay"}</div>
+      {error && <p className="text-red-500">Ocurrió algún error</p>}
+
+      <div className="grid h-screen w-[100%] place-items-center">
+        <div className="flex w-[80%] justify-start items-center gap-16 shadow-md p-10">
+          <div className="w-[50%]">
+            <form
+              onSubmit={handleSubmit(succcesSubmit)}
+              className="flex flex-col items-start justify-start gap-1"
+            >
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-500 to-indigo-600 text-transparent bg-clip-text pt-2 pb-10">
+                Postear comentario
+              </h1>
+              <textarea
+                className="bg-gray-100 border border-gray-300 rounded-lg py-2 px-4 resize-none focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent w-full pb-10 mb-10"
+                {...register("comentario", { required: true })}
+              />
+              <button
+                type="submit"
+                className="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white font-bold py-2 px-4 rounded-full"
+              >
+                Enviar
+              </button>
+            </form>
+          </div>
+          <div className="w-2/4 h-full">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-500 to-indigo-600 text-transparent bg-clip-text pt-2 pb-10">Comentarios publicados</h1>
+            
+   
+            {comentarios.length ? (
+              <Comentarios comentarios={comentarios} />
+            ) : (
+              <p className="text-gray-500">No hay comentarios</p>
+            )}
+            
+          </div>
+        </div>
       </div>
     </>
   );
